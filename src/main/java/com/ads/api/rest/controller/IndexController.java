@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,19 +60,35 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
 	}
 
-	/*
-	 * @SuppressWarnings({ "unchecked", "rawtypes" })
-	 * 
-	 * @PostMapping(value = "/{iduser}/idvenda/{idvenda}", produces =
-	 * "application/json") public ResponseEntity<?> salvarVendas(@PathVariable Long
-	 * idsuer,
-	 * 
-	 * @PathVariable Long idvenda) {
-	 * 
-	 * Aqui processar vendas //Usuario userSalvo = userRepo.save(user);
-	 * 
-	 * return new ResponseEntity("id user :" + idsuer + "idvenda :" + idvenda,
-	 * HttpStatus.OK); }
-	 */
+	@PutMapping(value = "/", produces = "application/json")
+	public ResponseEntity<Usuario> update(@RequestBody Usuario user) {
+
+		/* da pra fazer outras coisas antes de atualizar */
+
+		Usuario userSalvo = userRepo.save(user);
+
+		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PutMapping(value = "/{iduser}/idvenda/{idvenda}", produces ="application/json") 
+	public ResponseEntity<?> updatevendas(@PathVariable Long idsuer,
+	   @PathVariable Long idvenda) {
+
+		/* da pra fazer outras coisas antes de atualizar */
+
+		//Usuario userSalvo = userRepo.save(user);
+
+		return new ResponseEntity("Vendas atualizadas", HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping(value = "/{iduser}/idvenda/{idvenda}", produces ="application/json") 
+	public ResponseEntity<?> salvarVendas(@PathVariable Long idsuer,
+	   @PathVariable Long idvenda) {
+	  
+	  //Usuario userSalvo = userRepo.save(user);
+	  
+	  return new ResponseEntity("id user :" + idsuer + "idvenda :" + idvenda,HttpStatus.OK); }
 
 }
