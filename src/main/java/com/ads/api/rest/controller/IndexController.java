@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,6 +69,22 @@ public class IndexController {
 		Usuario userSalvo = userRepo.save(user);
 
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = "/{id}", produces = "application/text")
+	public String delete(@PathVariable("id") Long id) {
+		
+		userRepo.deleteById(id); /*Iria deletar todas a vendas do usúario*/
+		
+		return "usuario Excluido!";
+	}
+	
+	@DeleteMapping(value = "/{id}/venda", produces = "application/text")
+	public String deleteVenda(@PathVariable("id") Long id) {
+		
+		userRepo.deleteById(id);
+		
+		return "usuario Excluido!";
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
