@@ -35,7 +35,7 @@ public class IndexController {
 	 * // seria um retorno de relatório return new
 	 * ResponseEntity<Usuario>(user.get(),HttpStatus.OK); }
 	 */
-
+	
 	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
 
@@ -43,6 +43,8 @@ public class IndexController {
 
 		return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
 	}
+	
+	/*GERAR UMA LISTA DE USUARIO*/
 
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> user() {
@@ -53,6 +55,8 @@ public class IndexController {
 
 	}
 
+	/* SALVAR USUARIO*/
+	
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> salvar(@RequestBody Usuario user) {
 
@@ -60,6 +64,8 @@ public class IndexController {
 
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
 	}
+	
+	/*ATUALIZAR USUARIO*/
 
 	@PutMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> update(@RequestBody Usuario user) {
@@ -71,41 +77,54 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
 	}
 	
+	/*EXCLUIR USUARIO*/
+
 	@DeleteMapping(value = "/{id}", produces = "application/text")
 	public String delete(@PathVariable("id") Long id) {
-		
-		userRepo.deleteById(id); /*Iria deletar todas a vendas do usúario*/
-		
-		return "usuario Excluido!";
-	}
-	
-	@DeleteMapping(value = "/{id}/venda", produces = "application/text")
-	public String deleteVenda(@PathVariable("id") Long id) {
-		
-		userRepo.deleteById(id);
-		
+
+		userRepo.deleteById(id); /* Iria deletar todas a vendas do usúario */
+
 		return "usuario Excluido!";
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PutMapping(value = "/{iduser}/idvenda/{idvenda}", produces ="application/json") 
-	public ResponseEntity<?> updatevendas(@PathVariable Long idsuer,
-	   @PathVariable Long idvenda) {
+	/*
+	 * @DeleteMapping(value = "/{id}/venda", produces = "application/text") public
+	 * String deleteVenda(@PathVariable("id") Long id) {
+	 * 
+	 * userRepo.deleteById(id);
+	 * 
+	 * return "usuario Excluido!"; }
+	 */
 
-		/* da pra fazer outras coisas antes de atualizar */
+	/*
+	 * @SuppressWarnings({ "unchecked", "rawtypes" })
+	 * 
+	 * @PutMapping(value = "/{iduser}/idvenda/{idvenda}", produces
+	 * ="application/json") public ResponseEntity<?> updatevendas(@PathVariable Long
+	 * idsuer,
+	 * 
+	 * @PathVariable Long idvenda) {
+	 * 
+	 * da pra fazer outras coisas antes de atualizar
+	 * 
+	 * //Usuario userSalvo = userRepo.save(user);
+	 * 
+	 * return new ResponseEntity("Vendas atualizadas", HttpStatus.OK); }
+	 */
 
-		//Usuario userSalvo = userRepo.save(user);
-
-		return new ResponseEntity("Vendas atualizadas", HttpStatus.OK);
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping(value = "/{iduser}/idvenda/{idvenda}", produces ="application/json") 
-	public ResponseEntity<?> salvarVendas(@PathVariable Long idsuer,
-	   @PathVariable Long idvenda) {
-	  
-	  //Usuario userSalvo = userRepo.save(user);
-	  
-	  return new ResponseEntity("id user :" + idsuer + "idvenda :" + idvenda,HttpStatus.OK); }
+	/*
+	 * @SuppressWarnings({ "unchecked", "rawtypes" })
+	 * 
+	 * @PostMapping(value = "/{iduser}/idvenda/{idvenda}", produces
+	 * ="application/json") public ResponseEntity<?> salvarVendas(@PathVariable Long
+	 * idsuer,
+	 * 
+	 * @PathVariable Long idvenda) {
+	 * 
+	 * //Usuario userSalvo = userRepo.save(user);
+	 * 
+	 * return new ResponseEntity("id user :" + idsuer + "idvenda :" +
+	 * idvenda,HttpStatus.OK); }
+	 */
 
 }
