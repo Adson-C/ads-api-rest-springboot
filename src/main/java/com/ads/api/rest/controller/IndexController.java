@@ -78,6 +78,12 @@ public class IndexController {
 
 		/* da pra fazer outras coisas antes de atualizar */
 
+		/*faz um insert no banco relacionando o Id > telefone com Id > usuario*/
+		for (int pos = 0; pos < user.getTelefones().size(); pos++) {
+			
+			user.getTelefones().get(pos).setUsuario(user);
+		}
+		
 		Usuario userSalvo = userRepo.save(user);
 
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
