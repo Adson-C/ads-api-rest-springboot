@@ -59,6 +59,12 @@ public class IndexController {
 	
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> salvar(@RequestBody Usuario user) {
+		
+		/*faz um insert no banco relacionando o Id > telefone com Id > usuario*/
+		for (int pos = 0; pos < user.getTelefones().size(); pos++) {
+			
+			user.getTelefones().get(pos).setUsuario(user);
+		}
 
 		Usuario userSalvo = userRepo.save(user);
 
