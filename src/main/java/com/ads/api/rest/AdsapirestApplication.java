@@ -8,7 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EntityScan(basePackages = {"com.ads.api.rest.model"})
@@ -18,10 +20,19 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @RestController
 @EnableAutoConfiguration
-public class AdsapirestApplication {
+public class AdsapirestApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AdsapirestApplication.class, args);
+	}
+	
+	/*Mapeamento Global */
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		/*liberando todos os End-point (/**)  allowedMethods("POST", "PUT", "GET", "DELETE") */ 
+		registry.addMapping("/usuario/**")
+		.allowedMethods("*")
+		.allowedOrigins("*");
 	}
 
 }

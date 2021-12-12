@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>API Rest Microservices ADS</title>
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<h1>Hello Word</h1>
+<p>Venha seu Reino Seja Feita sua Vondade</p>
+
+</body>
+	
+	<script>
+	
+		$(document).ready (
+			
+			function () {
+				
+				$.ajax({
+					url: "http://localhost:8080/adsapirest/usuario/",
+					method: "GET"
+				}).then (function (data, status, info) {
+							
+				});
+				
+			}	
+				
+		);
+	
+	</script>
+
+
+</html>

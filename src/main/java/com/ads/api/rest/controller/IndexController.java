@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ads.api.rest.model.Usuario;
 import com.ads.api.rest.repository.UsuarioRepository;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/usuario")
+
 public class IndexController {
 
 	@Autowired
@@ -58,6 +61,7 @@ public class IndexController {
 	/* SALVAR USUARIO*/
 	
 	@PostMapping(value = "/", produces = "application/json")
+	
 	public ResponseEntity<Usuario> salvar(@RequestBody Usuario user) {
 		
 		/*faz um insert no banco relacionando o Id > telefone com Id > usuario*/
