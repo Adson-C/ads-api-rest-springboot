@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -31,11 +32,12 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{ // Mapeia U
 		.disable().authorizeRequests().antMatchers("/").permitAll() // ativando a permissão acesso a pagina inicial do sistema
 		.antMatchers("/index").permitAll()
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index") // URL de logout- redireciona após user deslogado
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")); // Maperia URL de logout e insValido o usuario
-		
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Maperia URL de logout e insValido o usuario
 		/*Filtra requisições de login para autenticação*/
-		
+		.and().addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), 
+				UsernamePasswordAuthenticationFilter.class)
 		/*Filtra demais requisições para verificar a presenção do Token JWT*/
+		.addFilterBefore(new JWTApiAutenticacaoFilter(), UsernamePasswordAuthenticationFilter.class);
 		
 		
 	}
