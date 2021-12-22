@@ -1,4 +1,5 @@
 package com.ads.api.rest.security;
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class JWTTokenAutenticacaoServive {
 	private static final String HEADER_STRING = "Authorization";
 	
 	/*Gera Token de autenticacao e add cabeçalho de resp Http*/
-	public void addAuthentication(HttpServletResponse response, String username) throws Exception {
+	public void addAuthentication(HttpServletResponse response, String username) throws IOException {
 		
 		//Montagen do token
 		String JWT = Jwts.builder() // chama o gerador de token
