@@ -63,18 +63,21 @@
 			<version>5.0.7.RELEASE</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.9</version>
-			</dependency>
-		 -->
+		<!-- <dependency> <groupId>commons-configuration</groupId> <artifactId>commons-configuration</artifactId> 
+			<version>1.9</version> </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>5.0.7.RELEASE</version><!--$NO-MVN-MAN-VER$-->
+			<version>5.0.7.RELEASE</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.7.0</version>
 		</dependency>
 
 
