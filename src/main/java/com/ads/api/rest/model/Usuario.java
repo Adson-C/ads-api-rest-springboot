@@ -114,7 +114,7 @@ public class Usuario implements UserDetails {
 	/*São os acessos dos usuario Role_ADMIN ou ......*/
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return roles;
 	}
 
 	@Override
