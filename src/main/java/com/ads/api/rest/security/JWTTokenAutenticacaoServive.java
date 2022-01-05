@@ -51,10 +51,14 @@ public class JWTTokenAutenticacaoServive {
 	public Authentication getAuthentication(HttpServletRequest request) {
 		
 		String token = request.getHeader(HEADER_STRING); // pega o token enviado no cabeçaho http
+		
 		if (token != null) {
+			
+			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
+			
 			// faz a validação do token do usuário na requisição
 			String user = Jwts.parser().setSigningKey(SECRET)
-					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+					.parseClaimsJws(tokenLimpo)
 					.getBody().getSubject();
 			if (user != null) {
 				
@@ -63,15 +67,19 @@ public class JWTTokenAutenticacaoServive {
 				
 				if (usuario != null) {
 					
+					if (tokenLimpo.equalsIgnoreCase(usuario.getToken())) {
+						
+					
 					return new UsernamePasswordAuthenticationToken(
 							usuario.getLogin(), 
 							usuario.getSenha(), 
 							usuario.getAuthorities());
-					}
-				
 				}
-				
 			}
+
+		}
+
+	}
 	
 			return null; // não autorizado
 			

@@ -52,7 +52,17 @@ public class Usuario implements UserDetails {
 	foreignKey = @ForeignKey(name = "role")))
 	private List<Role> roles; /*Os papeis de acesso*/
 	
+	private String token = "";
 	
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}

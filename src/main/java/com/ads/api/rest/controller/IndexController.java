@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,12 +55,13 @@ public class IndexController {
 	/*GERAR UMA LISTA DE USUARIO*/
 
 	@GetMapping(value = "/", produces = "application/json")
-	@Cacheable("cacheusuarios")
+	@CacheEvict(value = "cacheusuarios", allEntries = true)
+	@CachePut("cacheusuarios")
 	public ResponseEntity<List<Usuario>> user() throws InterruptedException {
 
 		List<Usuario> list = (List<Usuario>) userRepo.findAll();
 		
-		Thread.sleep(6000); // segura 6 segundos
+	//	Thread.sleep(6000); // segura 6 segundos
 
 		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
 
