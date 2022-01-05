@@ -40,13 +40,25 @@ public class IndexController {
 	 * ResponseEntity<Usuario>(user.get(),HttpStatus.OK); }
 	 */
 	
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
+	// Serviço RESTful
+	@GetMapping(value = "/{id}", produces = "application/json", headers = "X-API-Version=v1")
+	public ResponseEntity<Usuario> initV1(@PathVariable(value = "id") Long id) {
 
 		Optional<Usuario> user = userRepo.findById(id);
-
+		
+		System.out.println("Executando versão V1");
 		return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
 	}
+	
+	// Serviço RESTful
+		@GetMapping(value = "/{id}", produces = "application/json", headers = "X-API-Version=v2")
+		public ResponseEntity<Usuario> initV2(@PathVariable(value = "id") Long id) {
+
+			Optional<Usuario> user = userRepo.findById(id);
+			System.out.println("Executando versão V2");
+
+			return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
+		}
 	
 	/*GERAR UMA LISTA DE USUARIO*/
 
