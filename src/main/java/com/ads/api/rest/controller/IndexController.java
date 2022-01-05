@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,31 +42,23 @@ public class IndexController {
 	 */
 	
 	// Serviço RESTful
-	@GetMapping(value = "/{id}", produces = "application/json", headers = "X-API-Version=v1")
-	public ResponseEntity<Usuario> initV1(@PathVariable(value = "id") Long id) {
+	@GetMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
 
 		Optional<Usuario> user = userRepo.findById(id);
-		
-		System.out.println("Executando versão V1");
+
 		return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
 	}
-	
-	// Serviço RESTful
-		@GetMapping(value = "/{id}", produces = "application/json", headers = "X-API-Version=v2")
-		public ResponseEntity<Usuario> initV2(@PathVariable(value = "id") Long id) {
-
-			Optional<Usuario> user = userRepo.findById(id);
-			System.out.println("Executando versão V2");
-
-			return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
-		}
 	
 	/*GERAR UMA LISTA DE USUARIO*/
 
 	@GetMapping(value = "/", produces = "application/json")
-	public ResponseEntity<List<Usuario>> user() {
+	@Cacheable("cacheusuarios")
+	public ResponseEntity<List<Usuario>> user() throws InterruptedException {
 
 		List<Usuario> list = (List<Usuario>) userRepo.findAll();
+		
+		Thread.sleep(6000); // segura 6 segundos
 
 		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
 
@@ -85,6 +78,7 @@ public class IndexController {
 		
 		String senhacriptografada = new BCryptPasswordEncoder().encode(user.getSenha());
 		user.setSenha(senhacriptografada);
+		
 		Usuario userSalvo = userRepo.save(user);
 
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
@@ -110,7 +104,7 @@ public class IndexController {
 			String senhacriptografada = new BCryptPasswordEncoder().encode(user.getSenha());
 			user.setSenha(senhacriptografada);
 			
-		}
+		} 
 		
 		Usuario userSalvo = userRepo.save(user);
 
