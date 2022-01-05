@@ -91,6 +91,15 @@ public class IndexController {
 			user.getTelefones().get(pos).setUsuario(user);
 		}
 		
+		Usuario usertemporario = userRepo.findUserByLogin(user.getLogin());
+		
+		if (!usertemporario.getSenha().equals(user.getSenha())) { // senhas diferentes 
+			
+			String senhacriptografada = new BCryptPasswordEncoder().encode(user.getSenha());
+			user.setSenha(senhacriptografada);
+			
+		}
+		
 		Usuario userSalvo = userRepo.save(user);
 
 		return new ResponseEntity<Usuario>(userSalvo, HttpStatus.OK);
