@@ -2,6 +2,7 @@ package com.ads.api.rest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,6 +32,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{ // Mapeia U
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		.disable().authorizeRequests().antMatchers("/").permitAll() // ativando a permissão acesso a pagina inicial do sistema
 		.antMatchers("/index").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // liberar GET , POst, PUt,....
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index") // URL de logout- redireciona após user deslogado
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Maperia URL de logout e insValido o usuario
 		/*Filtra requisições de login para autenticação*/

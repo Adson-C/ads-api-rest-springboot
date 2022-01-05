@@ -42,13 +42,17 @@ public class JWTTokenAutenticacaoServive {
 		String token = TOKEN_PREFIX + " " + JWT; // Bearer 80856e6egdfyf7r4
 		//add no cabeçaho http
 		response.addHeader(HEADER_STRING, token); // Authorization: Bearer 80856e6egdfyf7r4
+		
+		// liberanddo reposta para porta difrentes do uso da API Clientes WEB
+		liberacaoCors(response);
+		
 		// escreve token como resposta no corpo http
 		response.getWriter().write("{\"Authorization\": \""+ token +"\"}");
 		
 	}
 	
 	/*Retorna o usuário valido com token , se nao retorna null*/
-	public Authentication getAuthentication(HttpServletRequest request) {
+	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 		
 		String token = request.getHeader(HEADER_STRING); // pega o token enviado no cabeçaho http
 		
@@ -80,9 +84,28 @@ public class JWTTokenAutenticacaoServive {
 		}
 
 	}
+		
+		liberacaoCors(response);
 	
 			return null; // não autorizado
 			
 		}
+
+	private void liberacaoCors(HttpServletResponse response) {
+		
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin", "*");
+		}
+		if (response.getHeader("Access-Control-Allow-Headers") == null) {
+			response.addHeader("Access-Control-Allow-Headers", "*");
+		}
+		if (response.getHeader("Access-Control-Request-Headers") == null) {
+			response.addHeader("Access-Control-Request-Headers", "*");
+		}
+		if (response.getHeader("Access-Control-Allow-Methods") == null) {
+			response.addHeader("Access-Control-Allow-Methods", "*");
+		}
+		
+	}
 	
 }
