@@ -14,6 +14,7 @@ import com.ads.api.rest.ApplicationContextLoad;
 import com.ads.api.rest.model.Usuario;
 import com.ads.api.rest.repository.UsuarioRepository;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -56,6 +57,8 @@ public class JWTTokenAutenticacaoServive {
 		
 		String token = request.getHeader(HEADER_STRING); // pega o token enviado no cabeçaho http
 		
+		try {
+		
 		if (token != null) {
 			
 			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
@@ -84,6 +87,13 @@ public class JWTTokenAutenticacaoServive {
 		}
 
 	}
+		
+		}catch (io.jsonwebtoken.ExpiredJwtException e) {
+			try {
+				response.getOutputStream().println("Seu Token expirado , atualize o Token.");
+			} catch (IOException e1) {}
+			
+		}
 		
 		liberacaoCors(response);
 	
