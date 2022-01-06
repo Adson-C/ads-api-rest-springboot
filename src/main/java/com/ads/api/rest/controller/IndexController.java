@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ads.api.rest.model.UserDTO;
 import com.ads.api.rest.model.Usuario;
 import com.ads.api.rest.repository.UsuarioRepository;
 
@@ -45,11 +46,11 @@ public class IndexController {
 	
 	// Serviço RESTful
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<UserDTO> init(@PathVariable(value = "id") Long id) {
 
 		Optional<Usuario> user = userRepo.findById(id);
 
-		return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
+		return new ResponseEntity<UserDTO>(new UserDTO(user.get()), HttpStatus.OK);
 	}
 	
 	/*GERAR UMA LISTA DE USUARIO*/

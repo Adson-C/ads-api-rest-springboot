@@ -36,6 +36,8 @@ public class Usuario implements UserDetails {
 	private String login;
 
 	private String nome;
+	
+	private String cpf;
 
 	private String senha;
 
@@ -166,6 +168,14 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 
