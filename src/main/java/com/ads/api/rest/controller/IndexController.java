@@ -1,12 +1,16 @@
 package com.ads.api.rest.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ads.api.rest.model.UserDTO;
 import com.ads.api.rest.model.Usuario;
 import com.ads.api.rest.repository.UsuarioRepository;
+import com.google.gson.Gson;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -72,13 +77,39 @@ public class IndexController {
 	
 	@PostMapping(value = "/", produces = "application/json")
 	
-	public ResponseEntity<Usuario> salvar(@RequestBody Usuario user) {
+	public ResponseEntity<Usuario> salvar(@RequestBody Usuario user) throws Exception {
 		
 		/*faz um insert no banco relacionando o Id > telefone com Id > usuario*/
 		for (int pos = 0; pos < user.getTelefones().size(); pos++) {
 			
 			user.getTelefones().get(pos).setUsuario(user);
 		}
+		
+		// Cosumindo API publica externa 
+		URL url = new URL("https://viacep.com.br/ws/"+user.getCep()+"/json/");
+		URLConnection connection = url.openConnection();
+		InputStream stream = connection.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+		
+		String cep = "";
+		StringBuilder jsonCep = new StringBuilder();
+		
+		while ((cep = reader.readLine()) != null) {
+			jsonCep.append(cep);
+		}
+		
+
+		Usuario userAux = new Gson().fromJson(jsonCep.toString(), Usuario.class);
+		
+		user.setCep(userAux.getCep());
+		user.setLogradouro(userAux.getLogradouro());
+		user.setComplemento(userAux.getComplemento());
+		user.setBairro(userAux.getBairro());
+		user.setLocalidade(userAux.getLocalidade());
+		user.setUf(userAux.getUf());
+		
+		
+		// Cosumindo API publica externa 
 		
 		String senhacriptografada = new BCryptPasswordEncoder().encode(user.getSenha());
 		user.setSenha(senhacriptografada);
