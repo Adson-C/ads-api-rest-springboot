@@ -44,7 +44,10 @@ public class JWTTokenAutenticacaoServive {
 		//add no cabeçaho http
 		response.addHeader(HEADER_STRING, token); // Authorization: Bearer 80856e6egdfyf7r4
 		
-		// liberanddo reposta para porta difrentes do uso da API Clientes WEB
+		ApplicationContextLoad.getApplicationContext()
+		.getBean(UsuarioRepository.class).atualizaTokenUser(JWT, username);
+		
+		// liberanddo reposta para porta diferentes do uso da API Clientes WEB
 		liberacaoCors(response);
 		
 		// escreve token como resposta no corpo http
