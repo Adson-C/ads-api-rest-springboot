@@ -155,6 +155,19 @@ public class IndexController {
 
 		return "usuario Excluido!";
 	}
+	
+	// consultar Usuario por Nome
+	@GetMapping(value = "/usuarioPorNome/{nome}", produces = "application/json")
+	@CachePut("cacheusuarios")
+	public ResponseEntity<List<Usuario>> usuarioPorNome(@PathVariable("nome") String nome) throws InterruptedException {
+
+		List<Usuario> list = (List<Usuario>) userRepo.findUserByNome(nome);
+		
+	//	Thread.sleep(6000); // segura 6 segundos
+
+		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
+
+	}
 
 	/*
 	 * @DeleteMapping(value = "/{id}/venda", produces = "application/text") public

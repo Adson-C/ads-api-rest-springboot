@@ -24,34 +24,46 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{ // Mapeia U
 	private ImplUserDetailsService implUserServ;
 	
 	
-	/*configura as solicitações de acesso por Http */
+	/*Configura as solicitações de acesso por Http*/
 	@Override
-		protected void configure(HttpSecurity http) throws Exception {
-		
-		/*Ativando a protecao de usuario  sem validações por Token */
+	protected void configure(HttpSecurity http) throws Exception {
+
+		/*Ativando a proteção contra usuário que não estão validados por TOKEN*/
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-		.disable().authorizeRequests().antMatchers("/").permitAll() // ativando a permissão acesso a pagina inicial do sistema
+		
+		/*Ativando a permissão para acesso a página incial do sistema EX: sistema.com.br/index*/
+		.disable().authorizeRequests().antMatchers("/").permitAll()
 		.antMatchers("/index").permitAll()
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // liberar GET , POst, PUt,....
-		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index") // URL de logout- redireciona após user deslogado
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Maperia URL de logout e insValido o usuario
+		
+		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		
+		/*URL de Logout - Redireciona após o user deslogar do sistema*/
+		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
+		
+		/*Maperia URL de Logout e insvalida o usuário*/
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		
 		/*Filtra requisições de login para autenticação*/
 		.and().addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), 
-				UsernamePasswordAuthenticationFilter.class)
-		/*Filtra demais requisições para verificar a presenção do Token JWT*/
+									UsernamePasswordAuthenticationFilter.class)
+		
+		/*Filtra demais requisições paa verificar a presenção do TOKEN JWT no HEADER HTTP*/
 		.addFilterBefore(new JWTApiAutenticacaoFilter(), UsernamePasswordAuthenticationFilter.class);
-		
-		
+	
 	}
 	
 	
+	
 	@Override
-		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		/*Service que ira consultar usuario non banco de dados*/
-		auth.userDetailsService(implUserServ)
-		.passwordEncoder(new BCryptPasswordEncoder());
-		
-		}
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+	/*Service que irá consultar o usuário no banco de dados*/	
+	auth.userDetailsService(implUserServ)
+	
+	/*Padrão de codigição de senha*/
+	.passwordEncoder(new BCryptPasswordEncoder());
+	
+	}
+	
 	
 }
